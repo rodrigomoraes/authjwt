@@ -1,3 +1,8 @@
-# authjwt
+# API NODEJS COM JWT
 
-Projeto de uma API node usando JWt com autenticação de login 
+
+
+
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+
+##### Criação de uma api usando NODE JS e autenticação de usuario com JWT
