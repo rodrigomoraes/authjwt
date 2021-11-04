@@ -12,4 +12,12 @@ app.get('/', (req, res) => {
     res.status(200).json({msg: 'Hello World'})
 });
 
-app.listen(3000)
+const dbUser = process.env.DB_USER
+const dbPass = process.env.DB_PASS
+
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.jkg6s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`).then(() =>{
+    app.listen(3000)
+    console.log("Banco conectado!")
+}).catch((err) => console.log(err))
+
+
