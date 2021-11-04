@@ -59,7 +59,7 @@ const passwordHash = await bcrypt.hash(password,salt)
 const user = new User({
     name,
     email,
-    password: passwordHash
+    password: passwordHas
 });
 
 
