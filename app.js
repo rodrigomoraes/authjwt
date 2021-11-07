@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
     res.status(200).json({msg: 'Hello World'})
 });
 
+// Rota privada
+
+
+
 // Registrar usuario
 app.post('/auth/register', async(req, res) =>{
     const {name, email, password, confirmpassword} = req.body
@@ -43,7 +47,6 @@ app.post('/auth/register', async(req, res) =>{
     }
    
 
-
     // check if user exists
 const userExists = await User.findOne({email:email})
 
@@ -63,6 +66,8 @@ const user = new User({
 });
 
 
+
+
 try {
     await user.save()
     res.status(201)
@@ -80,7 +85,55 @@ try {
 
 });
 
- 
+// Login
+app.post("/auth/login", async(req, res) =>{
+    const {email, password} = req.body
+
+    if(!email){
+        return res.status(422).json({msg: "Email obrigatorio"})
+    }
+    
+    if(!password){
+        return res.status(422).json({msg: "Senha obrigatoria"})
+    }
+
+    // check se usuario existe
+    const user = await User.findOne({email:email})
+    if(!user){
+        return res.status(404).json({msg: "Usuário não encontrado!"})
+    }
+
+    // Check se a senha combina
+
+    const checkPassword = await bcrypt.compare(password, user.password)
+    if(!checkPassword){
+        return res.status(422).json({msg: "Senha inválida"})
+    }
+
+    try {
+        const secret = process.env.SECRET
+        const token = jwt.sign(
+        {
+            id: user._id
+        }, secret,
+        )
+
+        res.status(200).json({msg: "Autenticado", token})
+        
+        
+    } catch (err) {
+        console.log(err)
+        res.status(500)
+    .json({
+        msg:"Houve um erro"
+    });
+
+
+    }
+
+
+});
+
 
 
 
